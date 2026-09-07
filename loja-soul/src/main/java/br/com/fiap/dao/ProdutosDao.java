@@ -5,6 +5,7 @@ import br.com.fiap.entities.Produtos;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class ProdutosDao {
@@ -49,5 +50,20 @@ public class ProdutosDao {
         stmt.close();
         return "Produto Deletado com Sucesso!!!";}
 
-
-}
+    public Produtos buscarPorId(int id) throws SQLException {
+        Produtos produto = null;
+        PreparedStatement stmt = minhaConexao.prepareStatement("Select * from TB_SOUL_PRODUTOS where ID=?");
+        stmt.setInt(1, id);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            produto = new Produtos();
+            produto.setId(rs.getInt(1));
+            produto.setNome(rs.getString(2));
+            produto.setQuantidade(rs.getInt(3));
+            produto.setTipo(rs.getString(4));
+            produto.setPontos(rs.getDouble(5));
+        }
+        rs.close();
+        stmt.close();
+        return produto;
+    }}
