@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class ProdutosDao {
 
@@ -66,4 +67,22 @@ public class ProdutosDao {
         rs.close();
         stmt.close();
         return produto;
-    }}
+    }
+    public ArrayList<Produtos> selecionar() throws SQLException {
+        ArrayList<Produtos> listaProdutos = new ArrayList<>();
+        PreparedStatement stmt = minhaConexao.prepareStatement("Select * from TB_SOUL_PRODUTOS");
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            Produtos produto = new Produtos();
+            produto.setId(rs.getInt(1));
+            produto.setNome(rs.getString(2));
+            produto.setQuantidade(rs.getInt(3));
+            produto.setTipo(rs.getString(4));
+            produto.setPontos(rs.getDouble(5));
+            listaProdutos.add(produto);
+        }
+        rs.close();
+        stmt.close();
+        return listaProdutos;
+    }
+}
