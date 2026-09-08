@@ -74,9 +74,12 @@ public class ProdutosDao {
         return produto;
     }
     public ArrayList<Produtos> selecionar() throws SQLException {
+
         ArrayList<Produtos> listaProdutos = new ArrayList<>();
+
         PreparedStatement stmt = minhaConexao.prepareStatement("Select * from TB_SOUL_PRODUTOS");
         ResultSet rs = stmt.executeQuery();
+
         while (rs.next()) {
             Produtos produto = new Produtos();
             produto.setId(rs.getInt(1));
