@@ -58,6 +58,7 @@ public class ProdutosDao {
         PreparedStatement stmt = minhaConexao.prepareStatement("Select * from TB_SOUL_PRODUTOS where ID=?");
         stmt.setInt(1, id);
         //resulset basicamente a resposta da oracle que fica armazenada no java,
+        //rs é so a referencia pra n ficar digitando toda hora ResultSet
         ResultSet rs = stmt.executeQuery();
         //esse next serve para andar linha por linha dessa repsosta para extrair as informações
         if (rs.next()) {
