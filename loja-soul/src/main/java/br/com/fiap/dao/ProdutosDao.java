@@ -19,6 +19,7 @@ public class ProdutosDao {
 
     public String inserir(Produtos produto) throws SQLException {
         // Tabela atualizada aqui
+        //PreparedStatement é o que leva o sql do java para o oracle, ou seja, ele é o uber das informações
         PreparedStatement stmt = minhaConexao.prepareStatement("Insert Into TB_SOUL_PRODUTOS values (?,?,?,?,?)");
         stmt.setInt(1, produto.getId());
         stmt.setString(2, produto.getNome());
@@ -43,7 +44,7 @@ public class ProdutosDao {
         return "Produto Atualizado com Sucesso!!!";
     }
     public String deletar(int id) throws SQLException {
-        // Tabela atualizada aqui
+        // ele deleta da tabela que a gente criou, mas só o produto com o ID que bate, o id digitado na hora de excluir
         PreparedStatement stmt = minhaConexao.prepareStatement("Delete From TB_SOUL_PRODUTOS where ID =?");
         stmt.setInt(1, id);
 
@@ -53,9 +54,12 @@ public class ProdutosDao {
 
     public Produtos buscarPorId(int id) throws SQLException {
         Produtos produto = null;
+        // aq basicamente diz pra selecionar todas as colunas da tabela TB... porem só as informações do ID selecionado
         PreparedStatement stmt = minhaConexao.prepareStatement("Select * from TB_SOUL_PRODUTOS where ID=?");
         stmt.setInt(1, id);
+        //resulset basicamente a resposta da oracle que fica armazenada no java,
         ResultSet rs = stmt.executeQuery();
+        //esse next serve para andar linha por linha dessa repsosta para extrair as informações
         if (rs.next()) {
             produto = new Produtos();
             produto.setId(rs.getInt(1));
