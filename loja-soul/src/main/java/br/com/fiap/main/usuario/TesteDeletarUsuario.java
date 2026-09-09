@@ -16,6 +16,7 @@ public class TesteDeletarUsuario {
         UsuarioDao dao = new UsuarioDao();
         String cpf = texto("Digite o CPF do usuário que será DELETADO:");
 
-        JOptionPane.showMessageDialog(null, dao.deletar(cpf));
+        JOptionPane.showMessageDialog(
+                null, dao.deletar(cpf));
     }
 }
