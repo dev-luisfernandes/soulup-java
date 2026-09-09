@@ -17,25 +17,16 @@ public class UsuarioDao {
         this.minhaConexao = new ConexaoFactory().conexao();
     }
 
-    /*
-    *
-    private String CPF;
-    private String nome;
-    private double pontos;
-    private String telefone;
-    private String email;
-    private String dataNascimento;
-
-    * */
-
     public String inserir(Usuario usuario) throws SQLException {
-        PreparedStatement stmt = minhaConexao.prepareStatement("Insert Into TB_SOUL_USUARIOS values (?,?,?,?,?,?)");
-        stmt.setString(1, usuario.getCPF()); //
-        stmt.setString(2, usuario.getNome());
-        stmt.setDouble(3, usuario.getPontos());
+        PreparedStatement stmt = minhaConexao.prepareStatement(
+                "Insert Into tb_usuarios (nome_usuario, cpf, email, telefone, data_nascimento, pontos, situacao) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        stmt.setString(1, usuario.getNome());
+        stmt.setString(2, usuario.getCPF());
+        stmt.setString(3, usuario.getEmail());
         stmt.setString(4, usuario.getTelefone());
-        stmt.setString(5, usuario.getEmail());
-        stmt.setString(6, usuario.getDataNascimento());
+        stmt.setString(5, usuario.getDataNascimento());
+        stmt.setDouble(6, usuario.getPontos());
+        stmt.setString(7, usuario.getSituacao());
 
         stmt.execute();
         stmt.close();
@@ -44,13 +35,14 @@ public class UsuarioDao {
 
     public String atualizar(Usuario usuario) throws SQLException {
         PreparedStatement stmt = minhaConexao.prepareStatement(
-                "Update TB_SOUL_USUARIOS set NOME =?, PONTOS =?, TELEFONE =?, EMAIL =?, NASCIMENTO =? where CPF =?");
-        stmt.setString(1, usuario.getCPF()); //
-        stmt.setString(2, usuario.getNome());
-        stmt.setDouble(3, usuario.getPontos());
-        stmt.setString(4, usuario.getTelefone());
-        stmt.setString(5, usuario.getEmail());
-        stmt.setString(6, usuario.getDataNascimento());
+                "Update tb_usuarios set nome_usuario = ?, pontos = ?, telefone = ?, email = ?, situacao = ? where cpf = ?");
+
+        stmt.setString(1, usuario.getNome());
+        stmt.setDouble(2, usuario.getPontos());
+        stmt.setString(3, usuario.getTelefone());
+        stmt.setString(4, usuario.getEmail());
+        stmt.setString(5, usuario.getSituacao());
+        stmt.setString(6, usuario.getCPF());
 
         stmt.executeUpdate();
         stmt.close();
@@ -58,7 +50,7 @@ public class UsuarioDao {
     }
 
     public String deletar(String cpf) throws SQLException {
-        PreparedStatement stmt = minhaConexao.prepareStatement("Delete From TB_SOUL_USUARIOS where CPF =?");
+        PreparedStatement stmt = minhaConexao.prepareStatement("Delete From tb_usuarios where cpf =?");
         stmt.setString(1, cpf);
         stmt.execute();
         stmt.close();
@@ -67,28 +59,24 @@ public class UsuarioDao {
 
     public Usuario buscarPorCpf(String cpf) throws SQLException {
         Usuario usuario = null;
-        PreparedStatement stmt = minhaConexao.prepareStatement("Select * from TB_SOUL_USUARIOS where CPF=?");
+        PreparedStatement stmt = minhaConexao.prepareStatement(
+                /*TO_CHAR(data_nascimento, 'DD/MM/YYYY')
+                * O TO_CHAR é uma função utilizada para converter valores
+                * tipo datas ou números em texto (String), permitindo customizar o formato de exibição nesse cado (DD/MM/YYYY)*/
+                "Select usuario_id, nome_usuario, cpf, email, telefone, TO_CHAR(data_nascimento, 'DD/MM/YYYY'), pontos, situacao from tb_usuarios where cpf=?"
+        );
         stmt.setString(1, cpf);
         ResultSet rs = stmt.executeQuery();
 
         if (rs.next()) {
-            /*
-    *
-    private String CPF;
-    private String nome;
-    private double pontos;
-    private String telefone;
-    private String email;
-    private String dataNascimento;
-
-    * */
             usuario = new Usuario();
-            usuario.setCPF(rs.getString(1));
             usuario.setNome(rs.getString(2));
-            usuario.setPontos(rs.getDouble(3));
-            usuario.setTelefone(rs.getString(4));
-            usuario.setEmail(rs.getString(5));
-            usuario.setDataNascimento(rs.getString(6));
+            usuario.setCPF(rs.getString(3));
+            usuario.setEmail(rs.getString(4));
+            usuario.setTelefone(rs.getString(5));
+            usuario.setDataNascimento(rs.getString(6)); //aq ele ja vai vir certinho no formato
+            usuario.setPontos(rs.getDouble(7));
+            usuario.setSituacao(rs.getString(8));
         }
         rs.close();
         stmt.close();
@@ -97,18 +85,20 @@ public class UsuarioDao {
 
     public ArrayList<Usuario> selecionar() throws SQLException {
         ArrayList<Usuario> listaUsuarios = new ArrayList<>();
-        PreparedStatement stmt = minhaConexao.prepareStatement("Select * from TB_SOUL_USUARIOS");
+        PreparedStatement stmt = minhaConexao.prepareStatement(
+                "Select usuario_id, nome_usuario, cpf, email, telefone, TO_CHAR(data_nascimento, 'DD/MM/YYYY'), pontos, situacao from tb_usuarios"
+        );
         ResultSet rs = stmt.executeQuery();
 
         while (rs.next()) {
             Usuario usuario = new Usuario();
-            usuario = new Usuario();
-            usuario.setCPF(rs.getString(1));
             usuario.setNome(rs.getString(2));
-            usuario.setPontos(rs.getDouble(3));
-            usuario.setTelefone(rs.getString(4));
-            usuario.setEmail(rs.getString(5));
+            usuario.setCPF(rs.getString(3));
+            usuario.setEmail(rs.getString(4));
+            usuario.setTelefone(rs.getString(5));
             usuario.setDataNascimento(rs.getString(6));
+            usuario.setPontos(rs.getDouble(7));
+            usuario.setSituacao(rs.getString(8));
             listaUsuarios.add(usuario);
         }
         rs.close();
@@ -119,14 +109,9 @@ public class UsuarioDao {
     public String adicionarPontosEcologicos(String cpf, double pontosGanhos) throws SQLException {
         Usuario usuarioAtual = buscarPorCpf(cpf);
 
-        //se o usuario não for null
         if (usuarioAtual != null) {
-            //ele vai pegar o usuario atual e adicionar os pontos ganho e definir como novo salto
             double novoSaldo = usuarioAtual.getPontos() + pontosGanhos;
-            //vai definir pontos para o usuario escolhido e colocar o novo saldo
             usuarioAtual.setPontos(novoSaldo);
-
-            // 3. atualizar para salvar la no bd
             atualizar(usuarioAtual);
 
             return "Parabéns! Você ganhou " + pontosGanhos + " pontos. Seu novo saldo de pontos é de : " + novoSaldo;
