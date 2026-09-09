@@ -19,13 +19,12 @@ public class ProdutosDao {
 
     public String inserir(Produtos produto) throws SQLException {
         PreparedStatement stmt = minhaConexao.prepareStatement(
-                "INSERT INTO TB_SOUL_PRODUTOS (ID, NOME, QUANTIDADE, TIPO, PONTOS) VALUES (?, ?, ?, ?, ?)");
+                "INSERT INTO tb_recompensas (nome_recompensa, quantidade_estoque, tipo_recompensa, custo_pontos) VALUES (?, ?, ?, ?)");
 
-        stmt.setInt(1, produto.getId());
-        stmt.setString(2, produto.getNome());
-        stmt.setInt(3, produto.getQuantidade());
-        stmt.setString(4, produto.getTipo());
-        stmt.setDouble(5, produto.getPontos());
+        stmt.setString(1, produto.getNome());
+        stmt.setInt(2, produto.getQuantidade());
+        stmt.setString(3, produto.getTipo());
+        stmt.setDouble(4, produto.getPontos());
 
         stmt.execute();
         stmt.close();
@@ -34,7 +33,8 @@ public class ProdutosDao {
 
     public String atualizar(Produtos produto) throws SQLException {
         PreparedStatement stmt = minhaConexao.prepareStatement(
-                "Update TB_SOUL_PRODUTOS set NOME =?, QUANTIDADE =?, TIPO =?, PONTOS =? where ID = ?");
+                "UPDATE tb_recompensas SET nome_recompensa = ?, quantidade_estoque = ?, tipo_recompensa = ?, custo_pontos = ? WHERE recompensa_id = ?");
+
         stmt.setString(1, produto.getNome());
         stmt.setInt(2, produto.getQuantidade());
         stmt.setString(3, produto.getTipo());
@@ -47,7 +47,7 @@ public class ProdutosDao {
     }
 
     public String deletar(int id) throws SQLException {
-        PreparedStatement stmt = minhaConexao.prepareStatement("Delete From TB_SOUL_PRODUTOS where ID = ?");
+        PreparedStatement stmt = minhaConexao.prepareStatement("DELETE FROM tb_recompensas WHERE recompensa_id = ?");
         stmt.setInt(1, id);
 
         stmt.execute();
@@ -57,18 +57,18 @@ public class ProdutosDao {
 
     public Produtos buscarPorId(int id) throws SQLException {
         Produtos produto = null;
-        PreparedStatement stmt = minhaConexao.prepareStatement("Select * from TB_SOUL_PRODUTOS where ID = ?");
+        PreparedStatement stmt = minhaConexao.prepareStatement("SELECT * FROM tb_recompensas WHERE recompensa_id = ?");
         stmt.setInt(1, id);
 
         ResultSet rs = stmt.executeQuery();
 
         if (rs.next()) {
             produto = new Produtos();
-            produto.setId(rs.getInt(1));
-            produto.setNome(rs.getString(2));
-            produto.setQuantidade(rs.getInt(3));
-            produto.setTipo(rs.getString(4));
-            produto.setPontos(rs.getDouble(5));
+            produto.setId(rs.getInt(1));          // recompensa_id
+            produto.setNome(rs.getString(2));        // nome_recompensa
+            produto.setQuantidade(rs.getInt(3));     // quantidade_estoque
+            produto.setTipo(rs.getString(4));        // tipo_recompensa
+            produto.setPontos(rs.getDouble(5));      // custo_pontos
         }
         rs.close();
         stmt.close();
@@ -78,16 +78,16 @@ public class ProdutosDao {
     public ArrayList<Produtos> selecionar() throws SQLException {
         ArrayList<Produtos> listaProdutos = new ArrayList<>();
 
-        PreparedStatement stmt = minhaConexao.prepareStatement("Select * from TB_SOUL_PRODUTOS");
+        PreparedStatement stmt = minhaConexao.prepareStatement("SELECT * FROM tb_recompensas");
         ResultSet rs = stmt.executeQuery();
 
         while (rs.next()) {
             Produtos produto = new Produtos();
-            produto.setId(rs.getInt(1));
-            produto.setNome(rs.getString(2));
-            produto.setQuantidade(rs.getInt(3));
-            produto.setTipo(rs.getString(4));
-            produto.setPontos(rs.getDouble(5));
+            produto.setId(rs.getInt(1));          // recompensa_id
+            produto.setNome(rs.getString(2));        // nome_recompensa
+            produto.setQuantidade(rs.getInt(3));     // quantidade_estoque
+            produto.setTipo(rs.getString(4));        // tipo_recompensa
+            produto.setPontos(rs.getDouble(5));      // custo_pontos
             listaProdutos.add(produto);
         }
         rs.close();
