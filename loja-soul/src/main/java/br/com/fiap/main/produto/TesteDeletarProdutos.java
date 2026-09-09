@@ -13,6 +13,7 @@ public class TesteDeletarProdutos {
         Produtos objProdutos = new Produtos();
         ProdutosDao dao = new ProdutosDao();
 
+        // ele deleta da tabela que a gente criou, mas só o produto com o ID que bate, o id digitado na hora de excluir
         objProdutos.setId(inteiro("Informe o ID que será deletado"));
         System.out.println(dao.deletar(objProdutos.getId()));
     }
