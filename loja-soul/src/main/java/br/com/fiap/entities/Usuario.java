@@ -2,26 +2,30 @@ package br.com.fiap.entities;
 
 public class Usuario {
 
-    private int CPF;
+    private String CPF;
     private String nome;
     private double pontos;
-    private int CEP;
+    private String telefone;
+    private String email;
+    private String dataNascimento;
 
     public Usuario() {
     }
 
-    public Usuario(int CPF, String nome, double pontos, int CEP) {
+    public Usuario(String CPF, String nome, double pontos, String telefone, String email, String dataNascimento) {
         this.CPF = CPF;
         this.nome = nome;
         this.pontos = pontos;
-        this.CEP = CEP;
+        this.telefone = telefone;
+        this.email = email;
+        this.dataNascimento = dataNascimento;
     }
 
-    public int getCPF() {
+    public String getCPF() {
         return CPF;
     }
 
-    public void setCPF(int CPF) {
+    public void setCPF(String CPF) {
         this.CPF = CPF;
     }
 
@@ -41,21 +45,39 @@ public class Usuario {
         this.pontos = pontos;
     }
 
-    public int getCEP() {
-        return CEP;
+    public String getTelefone() {
+        return telefone;
     }
 
-    public void setCEP(int CEP) {
-        this.CEP = CEP;
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public void setDataNascimento(String dataNascimento) {
+        this.dataNascimento = dataNascimento;
     }
 
     @Override
     public String toString() {
         return "Usuario{" +
-                "CPF=" + CPF +
+                "CPF='" + CPF + '\'' +
                 ", nome='" + nome + '\'' +
                 ", pontos=" + pontos +
-                ", CEP=" + CEP +
+                ", telefone='" + telefone + '\'' +
+                ", email='" + email + '\'' +
+                ", dataNascimento='" + dataNascimento + '\'' +
                 '}';
     }
 }
