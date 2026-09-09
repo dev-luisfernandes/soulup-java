@@ -19,12 +19,6 @@ public class TesteBuscarUsuario {
 
         Usuario usuarioEncontrado = dao.buscarPorCpf(cpfBusca);
 
-        /*private String CPF;
-    private String nome;
-    private double pontos;
-    private String telefone;
-    private String email;
-    private String dataNascimento;*/
         if (usuarioEncontrado != null) {
             JOptionPane.showMessageDialog(
                     null,
@@ -33,7 +27,8 @@ public class TesteBuscarUsuario {
                             "CPF: " + usuarioEncontrado.getCPF() + "\n" +
                             "Telefone: " + usuarioEncontrado.getTelefone() + "\n" +
                             "Email: " + usuarioEncontrado.getEmail() + "\n" +
-                            "Data de Nascimento: " + usuarioEncontrado.getDataNascimento() + "n" +
+                            "Data de Nascimento: " + usuarioEncontrado.getDataNascimento() + "\n" +
+                            "Situação: " + usuarioEncontrado.getSituacao() + "\n" +
                             "Saldo Ecológico: " + usuarioEncontrado.getPontos() + " pontos");
 
         } else {
