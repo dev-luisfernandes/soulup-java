@@ -1,4 +1,4 @@
-package br.com.fiap.main;
+package br.com.fiap.main.produto;
 
 //import do dao pq ele pega a função criada lá e adiciona apenas a funcionalidade aqui basicamente o que o usuario faz
 import br.com.fiap.dao.ProdutosDao;

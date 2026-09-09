@@ -1,4 +1,4 @@
-package br.com.fiap.main;
+package br.com.fiap.main.produto;
 
 import br.com.fiap.dao.ProdutosDao;
 import br.com.fiap.entities.Produtos;
