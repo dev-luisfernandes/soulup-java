@@ -24,6 +24,7 @@ public class TesteInserirProdutos {
         ProdutosDao dao = new ProdutosDao();
         Produtos objProduto = new Produtos();
 
+        objProduto.setId(inteiro("defina o id do produto:"));
         objProduto.setNome(texto("Nome do Produto:"));
         objProduto.setQuantidade(inteiro("Quantidade em Estoque:"));
         objProduto.setTipo(texto("Tipo:"));
