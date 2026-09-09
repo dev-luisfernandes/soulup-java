@@ -7,14 +7,16 @@ import java.sql.SQLException;
 
 public class TesteAtualizarProdutos {
 
-    static String texto(String j) { return JOptionPane.showInputDialog(j); }
-    static int inteiro(String j) { return Integer.parseInt(JOptionPane.showInputDialog(j)); }
-    static double real(String j) { return Double.parseDouble(JOptionPane.showInputDialog(j)); }
+    static String texto(String j){
+        return JOptionPane.showInputDialog(j); }
+    static int inteiro(String j){
+        return Integer.parseInt(JOptionPane.showInputDialog(j)); }
+    static double real(String j){
+        return Double.parseDouble(JOptionPane.showInputDialog(j)); }
 
     public static void main(String[] args) throws SQLException, ClassNotFoundException {
         Produtos objProdutos = new Produtos();
         ProdutosDao dao = new ProdutosDao();
-
 
         objProdutos.setId(inteiro("Informe o ID do produto que será atualizado"));
         objProdutos.setNome(texto("Novo Nome"));
