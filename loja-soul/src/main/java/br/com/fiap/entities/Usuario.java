@@ -2,23 +2,35 @@ package br.com.fiap.entities;
 
 public class Usuario {
 
+    private int usuarioId;
     private String CPF;
     private String nome;
     private double pontos;
     private String telefone;
     private String email;
     private String dataNascimento;
+    private String situacao;
 
     public Usuario() {
     }
 
-    public Usuario(String CPF, String nome, double pontos, String telefone, String email, String dataNascimento) {
+    public Usuario(int usuarioId, String CPF, String nome, double pontos, String telefone, String email, String dataNascimento, String situacao) {
+        this.usuarioId = usuarioId;
         this.CPF = CPF;
         this.nome = nome;
         this.pontos = pontos;
         this.telefone = telefone;
         this.email = email;
         this.dataNascimento = dataNascimento;
+        this.situacao = situacao;
+    }
+
+    public int getUsuarioId() {
+        return usuarioId;
+    }
+
+    public void setUsuarioId(int usuarioId) {
+        this.usuarioId = usuarioId;
     }
 
     public String getCPF() {
@@ -69,15 +81,25 @@ public class Usuario {
         this.dataNascimento = dataNascimento;
     }
 
+    public String getSituacao() {
+        return situacao;
+    }
+
+    public void setSituacao(String situacao) {
+        this.situacao = situacao;
+    }
+
     @Override
     public String toString() {
         return "Usuario{" +
-                "CPF='" + CPF + '\'' +
+                "usuarioId=" + usuarioId +
+                ", CPF='" + CPF + '\'' +
                 ", nome='" + nome + '\'' +
                 ", pontos=" + pontos +
                 ", telefone='" + telefone + '\'' +
                 ", email='" + email + '\'' +
                 ", dataNascimento='" + dataNascimento + '\'' +
+                ", situacao='" + situacao + '\'' +
                 '}';
     }
 }
